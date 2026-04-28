@@ -1,0 +1,15 @@
+{
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+    "less.lint.unknownAtRules": "ignore",
+    "cSpell.words": [
+        "Acceptée",
+        "astreintes",
+        "Chargement",
+        "Createur",
+        "Déclarer",
+        "indisponibilité",
+        "inscrit",
+        "laravel"
+    ]
+}

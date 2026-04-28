@@ -1,0 +1,26 @@
+.app-footer {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.app-footer-logo {
+  width: 84px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.92;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.18));
+}
+
+@media (max-width: 768px) {
+  .app-footer {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .app-footer-logo {
+    width: 64px;
+  }
+}
