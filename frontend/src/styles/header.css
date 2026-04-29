@@ -1,58 +1,48 @@
-/* Header Styles */
+/* ===== OCP Header ===== */
 .header {
   background: white;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border, #e4e9ef);
+  padding: 0.85rem 1.75rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 100%;
 }
 
-.header-title {
-  display: flex;
-  align-items: center;
-}
+.header-title { display: flex; align-items: center; }
 
 .header-brand-logo {
-  width: 60px;
+  width: 52px;
   height: auto;
   object-fit: contain;
 }
 
-.header-user {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+.header-user { display: flex; align-items: center; gap: 0.75rem; }
 
 .user-greeting {
   font-weight: 500;
-  color: #6b7280;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #64748b);
 }
 
 .user-avatar-header {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--ocp-green-pale, #e6f7eb);
 }
 
+/* Notification bell OCP tint */
+.notif-dot { background: var(--ocp-green, #2e8b47) !important; }
+
 @media (max-width: 768px) {
-  .header {
-    padding: 1rem;
-  }
-
-  .header-brand-logo {
-    width: 72px;
-  }
-
-  .user-greeting {
-    display: none;
-  }
+  .header { padding: 0.75rem 1rem; }
+  .user-greeting { display: none; }
 }

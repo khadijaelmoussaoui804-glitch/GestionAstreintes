@@ -137,7 +137,8 @@ export default function Sidebar() {
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-brand">
-            <h1 className="sidebar-brand-title">Gestion Des Astreintes</h1>
+            <img src="/ocp-logo.png" alt="OCP" className="sidebar-brand-logo" />
+            <h1 className="sidebar-brand-title">Gestion des Astreintes</h1>
           </div>
           <button className="sidebar-close" onClick={() => setIsOpen(false)}>✕</button>
         </div>

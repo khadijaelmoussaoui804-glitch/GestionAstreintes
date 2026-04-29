@@ -1,8 +1,8 @@
-/* Dashboard Layout */
+/* ===== OCP Dashboard Layout ===== */
 .dashboard-layout {
   display: flex;
   height: 100vh;
-  background-color: #f9fafb;
+  background-color: var(--ocp-gray-50, #f8fafb);
 }
 
 .main-content {
@@ -19,11 +19,6 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard-layout {
-    flex-direction: column;
-  }
-
-  .page-content {
-    padding: 1rem;
-  }
+  .dashboard-layout { flex-direction: column; }
+  .page-content { padding: 1rem; padding-top: 4rem; }
 }
