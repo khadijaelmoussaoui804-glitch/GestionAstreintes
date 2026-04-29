@@ -35,4 +35,5 @@ class OnCallSchedule extends Model
     {
         return $this->hasMany(OnCallShift::class, 'schedule_id');
     }
+    
 }

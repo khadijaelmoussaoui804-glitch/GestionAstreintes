@@ -8,6 +8,31 @@ use Illuminate\Http\Request;
 
 class ScheduleController
 {
+    public function current()
+{
+    $today = now();
+
+    $schedules = OnCallSchedule::with(['shifts.assignee', 'service'])
+        ->where('status', 'active')
+        ->whereDate('start_date', '<=', $today)
+        ->whereDate('end_date', '>=', $today)
+        ->get();
+
+    $result = [];
+
+    foreach ($schedules as $schedule) {
+        foreach ($schedule->shifts as $shift) {
+            $result[] = [
+                'service' => $schedule->service->name ?? 'Service',
+                'agent' => $shift->assignee->name ?? 'N/A',
+                'phone' => $shift->assignee->phone ?? '',
+                'status' => 'Disponible'
+            ];
+        }
+    }
+
+    return response()->json($result);
+}
     public function index(Request $request)
     {
         $query = OnCallSchedule::with('creator', 'shifts.assignee');
