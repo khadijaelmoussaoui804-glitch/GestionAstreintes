@@ -1,19 +1,26 @@
-/* ===== OCP Design System ===== */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
+/* ===== AS'TREINTE MANAGER — Design System ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --ocp-green-dark:   #1a6b2f;
-  --ocp-green:        #2e8b47;
-  --ocp-green-mid:    #3aa85a;
-  --ocp-green-light:  #52c470;
-  --ocp-green-pale:   #e6f7eb;
-  --ocp-green-ultra:  #f0faf3;
+  --ast-blue-dark:    #1a3a5c;
+  --ast-blue:         #2563eb;
+  --ast-blue-mid:     #3b82f6;
+  --ast-blue-light:   #60a5fa;
+  --ast-blue-pale:    #eff6ff;
+  --ast-blue-ultra:   #f0f7ff;
+
+  --ast-teal:         #0d9488;
+  --ast-teal-light:   #14b8a6;
+
+  --sidebar-active:   #2563eb;
+  --sidebar-bg:       #1e293b;
+  --sidebar-border:   rgba(255,255,255,0.08);
 
   --ocp-white:        #ffffff;
-  --ocp-gray-50:      #f8fafb;
-  --ocp-gray-100:     #f1f4f7;
-  --ocp-gray-200:     #e4e9ef;
-  --ocp-gray-300:     #c8d3de;
+  --ocp-gray-50:      #f8fafc;
+  --ocp-gray-100:     #f1f5f9;
+  --ocp-gray-200:     #e2e8f0;
+  --ocp-gray-300:     #cbd5e1;
   --ocp-gray-400:     #94a3b8;
   --ocp-gray-500:     #64748b;
   --ocp-gray-600:     #475569;
@@ -21,10 +28,16 @@
   --ocp-gray-800:     #1e293b;
   --ocp-gray-900:     #0f172a;
 
-  --primary:          var(--ocp-green);
-  --primary-dark:     var(--ocp-green-dark);
-  --primary-light:    var(--ocp-green-light);
-  --primary-pale:     var(--ocp-green-pale);
+  --ocp-green:        #2563eb;
+  --ocp-green-dark:   #1a3a5c;
+  --ocp-green-mid:    #3b82f6;
+  --ocp-green-light:  #60a5fa;
+  --ocp-green-pale:   #eff6ff;
+
+  --primary:          var(--ast-blue);
+  --primary-dark:     var(--ast-blue-dark);
+  --primary-light:    var(--ast-blue-light);
+  --primary-pale:     var(--ast-blue-pale);
 
   --success:          #10b981;
   --warning:          #f59e0b;
@@ -35,14 +48,14 @@
   --text-secondary:   var(--ocp-gray-500);
   --text-muted:       var(--ocp-gray-400);
   --border:           var(--ocp-gray-200);
-  --bg-page:          var(--ocp-gray-50);
+  --bg-page:          #f1f5f9;
   --bg-card:          var(--ocp-white);
 
   --shadow-xs:  0 1px 2px rgba(0,0,0,0.04);
   --shadow-sm:  0 2px 6px rgba(0,0,0,0.06);
   --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
   --shadow-lg:  0 8px 30px rgba(0,0,0,0.10);
-  --shadow-green: 0 4px 20px rgba(46,139,71,0.20);
+  --shadow-blue: 0 4px 20px rgba(37,99,235,0.18);
 
   --radius-sm: 6px;
   --radius:    10px;
@@ -55,7 +68,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-page);
   color: var(--text-primary);
   line-height: 1.6;
@@ -63,7 +76,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cairo', 'Outfit', sans-serif;
+  font-family: 'Poppins', 'Inter', sans-serif;
   font-weight: 700;
   line-height: 1.25;
   margin-bottom: 0.5rem;
@@ -81,30 +94,15 @@ a { color: var(--primary); text-decoration: none; transition: var(--transition);
 a:hover { color: var(--primary-dark); text-decoration: underline; }
 
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.4rem;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: var(--transition);
-  text-decoration: none;
-  white-space: nowrap;
-  user-select: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 0.65rem 1.4rem; border: none;
+  border-radius: var(--radius); font-size: 0.9rem; font-weight: 600;
+  font-family: inherit; cursor: pointer; transition: var(--transition);
+  text-decoration: none; white-space: nowrap; user-select: none;
 }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--ocp-green) 0%, var(--ocp-green-dark) 100%);
-  color: white;
-  box-shadow: var(--shadow-green);
-}
-.btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(46,139,71,0.32); }
+.btn-primary { background: linear-gradient(135deg, var(--ast-blue) 0%, var(--ast-blue-dark) 100%); color: white; box-shadow: var(--shadow-blue); }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(37,99,235,0.32); }
 .btn-secondary { background: var(--ocp-gray-100); color: var(--ocp-gray-700); border: 1px solid var(--border); }
 .btn-secondary:hover:not(:disabled) { background: var(--ocp-gray-200); }
 .btn-success { background: var(--success); color: white; }
@@ -119,23 +117,16 @@ label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.85
 
 input[type='text'], input[type='email'], input[type='password'],
 input[type='number'], input[type='date'], textarea, select {
-  width: 100%;
-  padding: 0.7rem 1rem;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 0.95rem;
-  font-family: inherit;
-  background: var(--ocp-white);
-  color: var(--text-primary);
+  width: 100%; padding: 0.7rem 1rem;
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  font-size: 0.95rem; font-family: inherit;
+  background: var(--ocp-white); color: var(--text-primary);
   transition: var(--transition);
 }
-
 input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(46,139,71,0.12);
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
 }
-
 input::placeholder { color: var(--text-muted); }
 input[type='checkbox'], input[type='radio'] { margin-right: 0.5rem; accent-color: var(--primary); cursor: pointer; }
 .checkbox-label { display: flex; align-items: center; font-weight: 400; color: var(--text-secondary); cursor: pointer; }
@@ -158,8 +149,7 @@ input[type='checkbox'], input[type='radio'] { margin-right: 0.5rem; accent-color
 .status-scheduled { background: #e0e7ff; color: #3730a3; }
 
 .no-data { text-align: center; color: var(--text-muted); padding: 2.5rem; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
+.text-center { text-align: center; } .text-right { text-align: right; }
 .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mt-3 { margin-top: 1.5rem; } .mt-4 { margin-top: 2rem; }
 .mb-1 { margin-bottom: 0.5rem; } .mb-2 { margin-bottom: 1rem; } .mb-3 { margin-bottom: 1.5rem; } .mb-4 { margin-bottom: 2rem; }
 .p-2 { padding: 1rem; } .p-4 { padding: 2rem; }

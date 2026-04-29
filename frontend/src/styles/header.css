@@ -1,48 +1,80 @@
-/* ===== OCP Header ===== */
+/* ===== AS'TREINTE MANAGER — Header ===== */
 .header {
-  background: white;
-  border-bottom: 1px solid var(--border, #e4e9ef);
-  padding: 0.85rem 1.75rem;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  background: white; border-bottom: 1px solid #e2e8f0;
+  padding: 0 1.75rem; height: 64px;
+  display: flex; align-items: center; flex-shrink: 0;
+  z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
+.header-content { width: 100%; display: flex; align-items: center; justify-content: space-between; }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.header-search { flex: 1; max-width: 400px; position: relative; }
+.header-search-input {
+  width: 100%; padding: 0.55rem 1rem 0.55rem 2.5rem;
+  border: 1.5px solid #e2e8f0; border-radius: 10px;
+  font-size: 0.88rem; background: #f8fafc; color: #334155;
+  outline: none; font-family: inherit; transition: all 0.2s;
 }
+.header-search-input:focus { border-color: #2563eb; background: white; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.header-search-input::placeholder { color: #94a3b8; }
+.header-search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.85rem; }
 
-.header-title { display: flex; align-items: center; }
+.header-title { display: flex; align-items: center; gap: 0.75rem; }
+.header-brand-logo { height: 32px; width: auto; }
+.header-user { display: flex; align-items: center; gap: 1rem; }
+.user-greeting { font-size: 0.88rem; font-weight: 500; color: #64748b; }
+.user-avatar-header { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0; }
 
-.header-brand-logo {
-  width: 52px;
-  height: auto;
-  object-fit: contain;
-}
+/* Tailwind-like utility classes for notification dropdown */
+.relative { position: relative; }
+.p-2 { padding: 0.5rem; }
+.text-gray-500 { color: #64748b; }
+.hover\:bg-gray-100:hover { background: #f1f5f9; }
+.rounded-full { border-radius: 50%; }
+.transition { transition: all 0.2s; }
+.w-6 { width: 1.5rem; } .h-6 { height: 1.5rem; }
+.absolute { position: absolute; }
+.top-1 { top: 0.25rem; } .right-1 { right: 0.25rem; }
+.bg-red-500 { background: #ef4444; }
+.text-white { color: white; }
+.text-xs { font-size: 0.75rem; }
+.font-bold { font-weight: 700; }
+.w-4 { width: 1rem; } .h-4 { height: 1rem; }
+.flex { display: flex; } .items-center { align-items: center; } .justify-center { justify-content: center; }
+.gap-4 { gap: 1rem; }
+.right-0 { right: 0; } .mt-2 { margin-top: 0.5rem; }
+.w-80 { width: 20rem; }
+.bg-white { background: white; }
+.rounded-lg { border-radius: 12px; }
+.shadow-xl { box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+.border { border: 1px solid; } .border-gray-100 { border-color: #f1f5f9; }
+.z-50 { z-index: 50; }
+.p-4 { padding: 1rem; }
+.border-b { border-bottom: 1px solid #f1f5f9; }
+.justify-between { justify-content: space-between; }
+.font-semibold { font-weight: 600; }
+.text-gray-800 { color: #1e293b; }
+.text-blue-600 { color: #2563eb; }
+.hover\:text-blue-800:hover { color: #1e40af; }
+.max-h-96 { max-height: 24rem; }
+.overflow-y-auto { overflow-y: auto; }
+.text-center { text-align: center; }
+.text-sm { font-size: 0.875rem; }
+.hover\:bg-gray-50:hover { background: #f8fafc; }
+.cursor-pointer { cursor: pointer; }
+.gap-3 { gap: 0.75rem; }
+.w-8 { width: 2rem; } .h-8 { height: 2rem; }
+.object-cover { object-fit: cover; }
+.bg-blue-100 { background: #dbeafe; }
+.flex-1 { flex: 1; }
+.leading-snug { line-height: 1.375; }
+.text-gray-400 { color: #94a3b8; }
+.block { display: block; }
+.bg-blue-50\/50 { background: rgba(239,246,255,0.5); }
+.w-2 { width: 0.5rem; } .h-2 { height: 0.5rem; }
+.bg-blue-600 { background: #2563eb; }
 
-.header-user { display: flex; align-items: center; gap: 0.75rem; }
-
-.user-greeting {
-  font-weight: 500;
-  font-size: 0.9rem;
-  color: var(--text-secondary, #64748b);
-}
-
-.user-avatar-header {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--ocp-green-pale, #e6f7eb);
-}
-
-/* Notification bell OCP tint */
-.notif-dot { background: var(--ocp-green, #2e8b47) !important; }
-
-@media (max-width: 768px) {
-  .header { padding: 0.75rem 1rem; }
-  .user-greeting { display: none; }
+.header-admin-badge {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.35rem 0.85rem; background: #f1f5f9;
+  border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #475569;
 }

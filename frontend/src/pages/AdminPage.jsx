@@ -2,11 +2,16 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../api/authContext'
 import { useServiceStore } from '../store/serviceStore'
 import LoadingSpinner from '../components/LoadingSpinner'
+import { importOcpServices, OCP_SERVICES } from '../utils/importOcpServices'
 export default function AdminPage() {
   const { user } = useAuth()
   const { services, isLoading, error, fetchServices, createService, updateService, deleteService } = useServiceStore()
   const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState(null)
+  // ─── OCP Import ──────────────────────────────────────────────────────────────
+  const [isImporting, setIsImporting] = useState(false)
+  const [importResult, setImportResult] = useState(null)
+  const [showImportConfirm, setShowImportConfirm] = useState(false)
   const [users, setUsers] = useState([])
   const [schedules, setSchedules] = useState([])
   const [shifts, setShifts] = useState([])
@@ -137,6 +142,24 @@ export default function AdminPage() {
     }
   }
   // ─── Service CRUD ────────────────────────────────────────────────────────────
+  // ─── OCP Import handler ──────────────────────────────────────────────────────
+  const handleOcpImport = async () => {
+    setShowImportConfirm(false)
+    setIsImporting(true)
+    setImportResult(null)
+    try {
+      const token = localStorage.getItem('auth_token')
+      const existingNames = (services || []).map((s) => s.name)
+      const result = await importOcpServices(token, existingNames)
+      setImportResult(result)
+      await fetchServices() // refresh list
+    } catch (err) {
+      setImportResult({ imported: 0, skipped: 0, errors: [err.message] })
+    } finally {
+      setIsImporting(false)
+    }
+  }
+
   const handleOpenModal = (service = null) => {
     if (service) {
       setEditingId(service.id)
@@ -198,13 +221,55 @@ export default function AdminPage() {
       {/* ── Header ─────────────────────────────────────────────────────────────── */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-gray-800">Administration</h1>
-        <button
-          onClick={() => handleOpenModal()}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
-        >
-          Ajouter un service
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={() => setShowImportConfirm(true)}
+            disabled={isImporting}
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition font-medium"
+          >
+            {isImporting ? (
+              <>
+                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                </svg>
+                Import en cours...
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                </svg>
+                Importer services OCP
+              </>
+            )}
+          </button>
+          <button
+            onClick={() => handleOpenModal()}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+          >
+            Ajouter un service
+          </button>
+        </div>
       </div>
+
+      {/* ── Import result banner ──────────────────────────────────────────────── */}
+      {importResult && (
+        <div className={`border px-4 py-3 rounded mb-4 flex items-start justify-between gap-4 ${importResult.errors.length > 0 ? 'bg-orange-50 border-orange-300 text-orange-800' : 'bg-green-50 border-green-300 text-green-800'}`}>
+          <div>
+            <p className="font-semibold">
+              ✅ {importResult.imported} service(s) importé(s)
+              {importResult.skipped > 0 && ` · ${importResult.skipped} ignoré(s) (déjà existant)`}
+            </p>
+            {importResult.errors.length > 0 && (
+              <ul className="mt-1 text-sm list-disc list-inside">
+                {importResult.errors.map((e, i) => <li key={i}>{e}</li>)}
+              </ul>
+            )}
+          </div>
+          <button onClick={() => setImportResult(null)} className="text-lg font-bold opacity-50 hover:opacity-100">✕</button>
+        </div>
+      )}
       {/* ── Global alerts ──────────────────────────────────────────────────────── */}
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">{error}</div>
@@ -521,6 +586,45 @@ export default function AdminPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── OCP Import confirmation modal ──────────────────────────────────────── */}
+      {showImportConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">Importer les services OCP</h2>
+                <p className="text-sm text-gray-500">Site de Benguerir — Octobre 2025</p>
+              </div>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-5">
+              <p className="text-sm text-gray-700 mb-2">
+                <span className="font-semibold text-green-700">{OCP_SERVICES.length} services</span> vont être importés depuis le tableau de garde OCP (MIG/B, MIG/M, FIM…).
+              </p>
+              <p className="text-xs text-gray-500">Les services déjà existants seront automatiquement ignorés (pas de doublons).</p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowImportConfirm(false)}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition font-medium"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={handleOcpImport}
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition font-medium"
+              >
+                Confirmer l'import
+              </button>
+            </div>
           </div>
         </div>
       )}
